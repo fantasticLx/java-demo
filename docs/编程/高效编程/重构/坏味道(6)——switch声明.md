@@ -82,8 +82,6 @@ void printDetails(double outstanding) {
 
 在该函数最常引用的类中建立一个有着类似行为的新函数。将旧函数变成一个单纯的委托函数，或是旧函数完全移除。
 
-
-
 ![img](https://raw.githubusercontent.com/atlantis1024/JavaParty/master/images/%E7%BC%96%E7%A8%8B/%E9%AB%98%E6%95%88%E7%BC%96%E7%A8%8B/%E9%87%8D%E6%9E%84/switch-statements/Move%20Method%20-%20After.png)
 
 
