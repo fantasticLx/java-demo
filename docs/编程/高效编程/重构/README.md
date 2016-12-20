@@ -1,29 +1,128 @@
-# 重构之道
+# 如果代码病了怎么办
 
-***重构（Refactoring）***就是通过调整程序代码改善软件的质量、性能，使其程序的设计模式和架构更趋合理，提高软件的扩展性和维护性。
+“有病要早治，不要放弃治疗”。多么朴素的道理 ，人人都懂。
 
-如果把代码的发展比作人类的进化，那么重构行为就是代码的进化过程。
+病，就是不健康。人有病，可以通过打针、吃药、做手术来进行治疗。
 
-![进化](https://raw.githubusercontent.com/atlantis1024/JavaParty/master/images/%E7%BC%96%E7%A8%8B/%E9%AB%98%E6%95%88%E7%BC%96%E7%A8%8B/%E9%87%8D%E6%9E%84/refactoring.jpg)
+**如果把代码质量和性能出问题比作代码有病，那么重构就是治疗代码有病的手段。**
 
 
 
-## 第一篇 代码的坏味道
+## 重构的原则
+
+### 何谓重构(What)
+
+`重构（Refactoring）` 的常见定义是：不改变软件系统外部行为的前提下，改善它的内部结构。
+
+个人觉得这个定义有点生涩。不妨理解为：重构是给代码治病的行为。而代码有病是指代码的质量（可靠性、安全性、可复用性、可维护性）和性能有问题。
+
+**重构的目的是为了提高代码的质量和性能**。
+
+*注：功能不全或者不正确，那是残疾代码。就像治病治不了残疾，重构也解决不了功能问题。*
+
+
+
+### 何时重构(When)
+
+关于何时重构，我先提一下 [重构并非难在如何做，而是难在何时开始做](http://mt.sohu.com/20160812/n463980993.shtml) 一文的观点。
+
+对于一个高速发展的公司来说，停下来做重构**从来就不是一个可接受的选项**，“边开飞机边换引擎”才是这种公司想要的。
+
+我们不妨来衡量一下重构的成本和收益。
+
+**重构的成本**
+
+重构是有成本的，费时费力（时间、人力）不说，还有可能会使本来正常运行的程序出错。所以，很多人都抱着“不求有功，但求无过”的心理得过且过。
+
+但是，技术债务是一直客观存在的，当代码的技术债务越来越沉重，导致最终快要跑不动时，架构师们往往不得不使用激进的手段来治疗代码的顽疾。但是，这个过程通常都是非常痛苦的，而且有着很高的失败风险。
+
+**重构的收益**
+
+重构的收益是提高代码的质量和性能，并提高未来的开发效率。但是，应当看到，重构并不能在短期内带来实际的效应。也很难估算重构究竟创造了什么价值。
+
+这么看来，重构实在是个吃力不讨好的事情。
+
+但是，**重构本应该是个渐进式的过程。**如果非要等到代码已经病入膏肓，再使用激进方式来重构，那必然是困难重重，风险极高。
+
+《重构》书中提到的重构时机为添加功能时；修复功能时；审查代码时。
+
+个人认为，其思想就是指重构应该在代码问题不大时及早调整。这样，既可以做到风险可控，同时能让代码避免进入恶性循环。
+
+
+
+### 为何重构(Why)
+
+正所谓：前人种树，后人乘凉；前人埋雷，后人填坑。
+
+重构可以提高代码既有设计，可以提高代码质量，提升编程效率。各种涉及重构的书都这么说。我也就不再废话了。然而，这些对于程序员来说，似乎并没有什么实际的好处。可能别人写了一坨烂代码，完成了领导的开发要求。你费了九牛二虎之力，重构了代码，结果程序反而不能正常运行。结果，绩效评比反而不如人。
+
+但是重构是不是一定能达到这样的效果，其实不好说。
+
+
+
+### 如何重构(How)
+
+重构行为在我看来，也是可以分级的。由高到低，越高越难：
+
+- 服务、数据库
+  现代软件往往业务复杂、庞大。使用微服务、数据迁移来拆分业务，降低业务复杂度成为了主流。但是，这些技术的测试、部署复杂，技术难度很高。
+
+- 组件、模块、框架
+
+  组件、模块、框架的重构，主要是针对代码的设计问题。解决的是代码的整体结构问题。需要对设计模式、分布式、并发等等有足够的了解。
+
+
+- 类、接口、函数、字段
+
+《重构》一书提到了22种**“代码的坏味道”**以及相关的重构方法。这些是对类、接口、函数、字段级别代码的重构手段。由于这一级别的重构方法较为简单，所以可操作性较强。具体细节可以阅读《代码的坏味道》篇章。
+
+前两种层级的重构已经涉及到架构层面，影响较大，难度较高，如果功力不够不要轻易变动。由于这两个层级涉及技术领域较广，这里不做论述。
+
+
+
+### 总结
+
+春秋战国时期的一代名医扁鹊，曾经有个很著名的医学主张：**防病于未然**。我觉得这个道理应用于软件代码的重构亦然。
+
+人会生病，生病了会身体不舒服，身体机能下降，严重了可能会一命呜呼。程序也会生病，生病了会运转不良好，出现bug，严重了会程序崩溃。
+
+因此，我认为，在重构这件事上，也可以应用治病的道理：
+
+- 最好不生病，有病及早治。
+  —— 编程时尽量有合理的设计、良好的编程风格，以避免出现问题。当代码出了问题，及早重构。
+
+- 小病不医，易得大病。
+  —— 程序中的小问题一直不改，日积月累，说不定就成了大问题。
+
+- 病急不要乱投医，看准症状对症下药。
+  —— 程序出现了问题，要分析出问题的根本，评估风险，有针对性的制定合理的重构方案。瞎改还不如不改。
+
+- 忌猛药
+  —— 医病用猛药容易有副作用。这就是所谓的，步子大了容易扯着蛋。重构如果大刀阔斧的干，那你就要有随时可能扑街的心理准备。
+
+
+
+
+
+## 代码的坏味道
+
+我刚参加工作时，所在部门里有个大神，绰号“神医”。这个绰号的由来，源于此君善于解决各种疑难bug。他也是我们部门编程规范的制定者。观其代码，逻辑严谨，风格简洁，所以屡屡在代码评优中获奖。
+
+我想，正是因为他十分清楚一些代码中的病症，才往往能准确找到问题所在，然后对症下药。
+
+当然，更重要的是：知道了这些症结，在编程中，尽量去避免这些问题，代码质量自然而然会提高，不是吗？
+
+
 
 ### 代码臃肿
 
 > ***代码臃肿是指代码中的类、函数、字段没有经过合理的组织，而是简单的堆砌起来。***
->
 > ***这一类型的问题通常在代码的初期并不明显，但是随着代码规模的增长而逐渐积累（特别是当没有人努力去根除它们时）。***
 
 - [过长函数(Long Method)](https://sourcemaking.com/refactoring/smells/long-method)
-
 - [过大的类(Large Class)](https://sourcemaking.com/refactoring/smells/large-class)
-
 - [基本类型偏执(Primitive Obsession)](https://sourcemaking.com/refactoring/smells/primitive-obsession)
-
 - [过长参数列表(Long Parameter List)](https://sourcemaking.com/refactoring/smells/long-parameter-list)
-
 - [数据泥团(Data Clumps)](https://sourcemaking.com/refactoring/smells/data-clumps)
 
 
@@ -31,16 +130,11 @@
 
 ### 滥用面向对象(Object-Orientation Abusers)
 
-​    ![img](https://sourcemaking.com/images/refactoring-illustrations/oo-abusers.png)  
-
 > ***这种坏味道意味着：代码部分或完全地违背了面向对象编程原则。***
 
 - [Switch 声明(Switch Statements)](https://sourcemaking.com/refactoring/smells/switch-statements)
-
 - [临时字段(Temporary Field)](https://sourcemaking.com/refactoring/smells/temporary-field)
-
 - [被拒绝的遗赠(Refused Bequest)](https://sourcemaking.com/refactoring/smells/refused-bequest)
-
 - [异曲同工的类(Alternative Classes with Different Interfaces)](https://sourcemaking.com/refactoring/smells/alternative-classes-with-different-interfaces)
 
 
@@ -48,14 +142,10 @@
 
 ### 变革的障碍(Change Preventers)
 
-​    ![img](https://sourcemaking.com/images/refactoring-illustrations/change-preventers.png)  
-
 > ***这种坏味道意味着：当你需要改变一处代码时，却发现不得不改变其他的地方。这使得程序开发变得复杂、代价高昂。***
 
 - [发散式变化(Divergent Change)](https://sourcemaking.com/refactoring/smells/divergent-change)
-
 - [霰弹式修改(Shotgun Surgery)](https://sourcemaking.com/refactoring/smells/shotgun-surgery)
-
 - [平行继承体系(Parallel Inheritance Hierarchies)](https://sourcemaking.com/refactoring/smells/parallel-inheritance-hierarchies)
 
 
@@ -63,38 +153,24 @@
 
 ### 非必要的(Dispensables)
 
-​    ![img](https://sourcemaking.com/images/refactoring-illustrations/dispensables.png)  
-
 >***这种坏味道意味着：这样的代码可有可无，它的存在反而影响整体代码的整洁和可读性。***
->
 
-- [过多的注释(Comments)](https://sourcemaking.com/refactoring/smells/comments)
-
-- [重复代码(Duplicate Code)](https://sourcemaking.com/refactoring/smells/duplicate-code)
-
-- [冗余类(Lazy Class)](https://sourcemaking.com/refactoring/smells/lazy-class)
-
-- [纯稚的数据类(Data Class)](https://sourcemaking.com/refactoring/smells/data-class)
-
-- [死代码(Dead Code)](https://sourcemaking.com/refactoring/smells/dead-code)
-
-- [夸夸其谈未来性(Speculative Generality)](https://sourcemaking.com/refactoring/smells/speculative-generality)
+- 过多的注释(Comments)
+- 重复代码(Duplicate Code)
+- 冗余类(Lazy Class)
+- 纯稚的数据类(Data Class)
+- 死代码(Dead Code)
+- 夸夸其谈未来性(Speculative Generality)
 
 
 
 
 ### 耦合(Couplers)
 
-​    ![img](https://sourcemaking.com/images/refactoring-illustrations/couplers.png)  
-
 > ***这种坏味道意味着：不同类之间过度耦合。***
 
-- [依恋情结(Feature Envy)](https://sourcemaking.com/refactoring/smells/feature-envy)
-
-- [狎昵关系(Inappropriate Intimacy)](https://sourcemaking.com/refactoring/smells/inappropriate-intimacy)
-
-- [过度耦合的消息链(Message Chains)](https://sourcemaking.com/refactoring/smells/message-chains)
-
-- [中间人(Middle Man)](https://sourcemaking.com/refactoring/smells/middle-man)
-
-- [不完美的库类(Incomplete Library Class)](https://sourcemaking.com/refactoring/smells/incomplete-library-class)
+- 依恋情结(Feature Envy)
+- 狎昵关系(Inappropriate Intimacy)
+- 过度耦合的消息链(Message Chains)
+- 中间人(Middle Man)
+- 不完美的库类(Incomplete Library Class)
