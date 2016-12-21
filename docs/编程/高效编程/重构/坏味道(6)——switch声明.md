@@ -17,7 +17,6 @@
 -  问题是多态该出现在哪？switch语句常常根据类型码进行选择，你要的是“与该类型码相关的函数或类”，所以应该运用 `提炼函数(Extract Method)` 将 `switch` 语句提炼到一个独立函数中，再以 `搬移函数(Move Method)` 将它搬移到需要多态性的那个类里。
 -  如果你的 `switch` 是基于类型码来识别分支，这时可以运用 `以子类取代类型码(Replace Type Code with Subclass)` 或 `以状态/策略模式取代类型码(Replace Type Code with State/Strategy)` 。
 -  一旦完成这样的继承结构后，就可以运用 `以多态取代条件表达式(Replace Conditional with Polymorphism)` 了。
-
 -  如果条件分支并不多并且它们使用不同参数调用相同的函数，多态就没必要了。在这种情况下，你可以运用 `以明确函数取代参数(Replace Parameter with Explicit Methods)` 。
 -  如果你的选择条件之一是null，可以运用 `引入 Null 对象(Introduce Null Object)` 。
 
@@ -31,9 +30,6 @@
 
 - 如果一个 `switch` 操作只是执行简单的行为，就没有重构的必要了。
 - `switch` 常被工厂设计模式族（`工厂方法模式(Factory Method)`和`抽象工厂模式(Abstract Factory) `）所使用，这种情况下也没必要重构。
-
-
-
 
 ## 重构方法说明
 
@@ -68,8 +64,6 @@ void printDetails(double outstanding) {
 }
 ```
 
-
-
 ### 搬移函数(Move Method)
 
 **问题**
@@ -84,9 +78,6 @@ void printDetails(double outstanding) {
 
 ![img](https://raw.githubusercontent.com/atlantis1024/JavaParty/master/images/%E7%BC%96%E7%A8%8B/%E9%AB%98%E6%95%88%E7%BC%96%E7%A8%8B/%E9%87%8D%E6%9E%84/switch-statements/Move%20Method%20-%20After.png)
 
-
-
-
 ### 以子类取代类型码(Replace Type Code with Subclass)
 
 **问题**
@@ -100,8 +91,6 @@ void printDetails(double outstanding) {
 以子类取代这个类型码。
 
 ![img](https://raw.githubusercontent.com/atlantis1024/JavaParty/master/images/%E7%BC%96%E7%A8%8B/%E9%AB%98%E6%95%88%E7%BC%96%E7%A8%8B/%E9%87%8D%E6%9E%84/primitive-obsession/Replace%20Type%20Code%20with%20Subclasses%20-%20After.png)
-
-
 
 ### 以状态/策略模式取代类型码(Replace Type Code with State/Strategy)
 
@@ -170,8 +159,6 @@ class NorwegianBlue extends Bird {
 speed = bird.getSpeed();
 ```
 
-
-
 ### 以明确函数取代参数(Replace Parameter with Explicit Methods)
 
 **问题**
@@ -204,8 +191,6 @@ void setWidth(int arg) {
   width = arg;
 }
 ```
-
-
 
 ### 引入 Null 对象(Introduce Null Object)
 
@@ -240,3 +225,7 @@ customer = (order.customer != null) ? order.customer : new NullCustomer();
 // Use Null-object as if it's normal subclass.
 plan = customer.getPlan();
 ```
+
+## 引申阅读
+
+欢迎继续阅读 [**<u>代码的症与药</u>**](http://www.cnblogs.com/jingmoxukong/p/6206993.html) 系列文章。
