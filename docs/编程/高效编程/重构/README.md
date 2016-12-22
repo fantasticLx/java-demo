@@ -170,17 +170,17 @@
 >***这组坏味道意味着：这样的代码可有可无，它的存在反而影响整体代码的整洁和可读性。***
 
 (13) [<u>过多的注释(Comments)</u>](http://www.cnblogs.com/jingmoxukong/p/6201562.html)
-(14) 重复代码(Duplicate Code)
-(15) 冗余类(Lazy Class)
-(16) 纯稚的数据类(Data Class)
-(17) 夸夸其谈未来性(Speculative Generality)
+(14) [<u>重复代码(Duplicate Code)</u>](http://www.cnblogs.com/jingmoxukong/p/6201573.html)
+(15) [<u>冗余类(Lazy Class)</u>](http://www.cnblogs.com/jingmoxukong/p/6201770.html)
+(16) [<u>纯稚的数据类(Data Class)</u>](http://www.cnblogs.com/jingmoxukong/p/6202375.html)
+(17) [<u>夸夸其谈未来性(Speculative Generality)</u>](http://www.cnblogs.com/jingmoxukong/p/6202378.html)
 
 ## 耦合(Couplers)
 
 > ***这组坏味道意味着：不同类之间过度耦合。***
 
-(18) 依恋情结(Feature Envy)
-(19) 狎昵关系(Inappropriate Intimacy)
-(20) 过度耦合的消息链(Message Chains)
-(21) 中间人(Middle Man)
-(22) 不完美的库类(Incomplete Library Class)
+(18) [<u>依恋情结(Feature Envy)</u>](http://www.cnblogs.com/jingmoxukong/p/6202614.html)
+(19) [<u>狎昵关系(Inappropriate Intimacy)</u>](http://www.cnblogs.com/jingmoxukong/p/6203324.html)
+(20) [<u>过度耦合的消息链(Message Chains)</u>](http://www.cnblogs.com/jingmoxukong/p/6203468.html)
+(21) [<u>中间人(Middle Man)</u>](http://www.cnblogs.com/jingmoxukong/p/6203611.html)
+(22) [<u>不完美的库类(Incomplete Library Class)</u>](http://www.cnblogs.com/jingmoxukong/p/6203720.html)
