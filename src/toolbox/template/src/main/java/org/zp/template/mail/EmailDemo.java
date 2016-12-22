@@ -1,9 +1,11 @@
 /**
  * The Apache License 2.0 Copyright (c) 2016 Victor Zhang
  */
-package org.zp.javaee.mail;
+package org.zp.template.mail;
 
-import org.apache.commons.lang3.StringUtils;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Properties;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -12,8 +14,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.IOException;
-import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.velocity.Template;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.VelocityEngine;
+import org.zp.template.velocity.VelocityDemo;
 
 /**
  * @author zhanpgeng
@@ -22,8 +28,8 @@ import java.util.Properties;
 public class EmailDemo {
     private static final String MAIL_SMTP_SERVER = "smtp.163.com";
     private static final String MAIL_POP3_SERVER = "pop3.163.com";
-    private static final String USER = "xxxx";
-    private static final String PASSWORD = "xxxx";
+    private static final String USER = "xxxxx";
+    private static final String PASSWORD = "3xxxxxe";
     private static final String MAIL_FROM = USER + "@163.com";
     private static final String MAIL_TO = USER + "@163.com";
 
@@ -31,63 +37,38 @@ public class EmailDemo {
     private static final String TYPE_HTML = "html";
 
     public static void main(String[] args) throws Exception {
+        /* 1.初始化 Velocity */
+        Properties props = new Properties();
+        try {
+            props.load(VelocityDemo.class.getResourceAsStream("/template/velocity.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        VelocityEngine velocityEngine = new VelocityEngine();
+        velocityEngine.init(props);
+
+        /* 2.创建一个上下文对象 */
+        VelocityContext context = new VelocityContext();
+
+        /* 3.添加你的数据对象到上下文 */
+        context.put("name", "Victor Zhang");
+
+        /* 4.选择一个模板 */
+        Template template = velocityEngine.getTemplate("template/email.vm");
+
+        /* 5.将你的数据与模板合并，产生输出内容 */
+        StringWriter sw = new StringWriter();
+        template.merge(context, sw);
+
         EmailInfoDTO info = new EmailInfoDTO();
         info.setFrom(MAIL_FROM);
         info.setTo(MAIL_TO);
         info.setTitle("测试邮件");
-        info.setType(TYPE_TEXT);
-        // info.setText("对酒当歌，人生几何，譬如朝露，去日苦多。");
-        info.setContent(getTestData2());
-        // sendEmail(info);
+        info.setType(TYPE_HTML);
 
-        receiveEmail();
-    }
-
-    private static Multipart getTestData() {
-        String htmlContent = "<h1>Hello</h1>" + "<p>显示图片<img src='cid:abc.jpg'>1.jpg</p>";
-        MimeMultipart mm = new MimeMultipart();
-
-        try {
-            MimeBodyPart text = new MimeBodyPart();
-            text.setContent(htmlContent, "text/html;charset=UTF-8");
-
-            MimeBodyPart image = new MimeBodyPart();
-            DataHandler dh = new DataHandler(new FileDataSource("D:\\00_Temp\\代码的坏味道.png"));
-            image.setDataHandler(dh);
-            image.setContentID("abc.jpg");
-
-            // 描述数据关系
-            mm.addBodyPart(text);
-            mm.addBodyPart(image);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-        return mm;
-    }
-
-    private static Multipart getTestData2() {
-        MimeMultipart mm = new MimeMultipart();
-
-        try {
-            MimeBodyPart text = new MimeBodyPart();
-            text.setContent("邮件中有两个附件。", "text/html;charset=UTF-8");
-            mm.addBodyPart(text);
-            String[] files = {"D:\\00_Temp\\1.png", "D:\\00_Temp\\2.png"};
-
-            // 添加邮件附件
-            for (String filename : files) {
-                MimeBodyPart attachPart = new MimeBodyPart();
-                attachPart.attachFile(filename);
-                mm.addBodyPart(attachPart);
-            }
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return mm;
+        info.setText(sw.toString());
+        sendEmail(info);
+        // receiveEmail();
     }
 
     private static void sendEmail(EmailInfoDTO info) throws MessagingException {
@@ -166,7 +147,8 @@ public class EmailDemo {
 
     private static void fillHtmlEmailBody(MimeMessage message, EmailInfoDTO info)
                     throws MessagingException {
-        message.setContent(info.getContent());
+        message.setContent(info.getText(), "text/html;charset=ISO-8859-1");
+        message.setHeader("Content-Transfer-Encoding", "Base64");
         message.saveChanges();
     }
 
@@ -193,15 +175,16 @@ public class EmailDemo {
         // 获得邮件夹Folder内的所有邮件Message对象
         Message[] messages = folder.getMessages();
 
-         for (int i = 0; i < messages.length; i++) {
-//        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < messages.length; i++) {
+            // for (int i = 0; i < 3; i++) {
             String subject = messages[i].getSubject();
             String from = (messages[i].getFrom()[0]).toString();
 
             if (StringUtils.equals("张鹏，南京某五百强公司的前同事工资翻倍了", subject)) {
                 System.out.println("第 " + (i + 1) + "封邮件的主题：" + subject);
                 System.out.println("第 " + (i + 1) + "封邮件的发件人地址：" + from);
-                System.out.println("第 " + (i + 1) + "封邮件的内容：\n" + messages[i].getContent().toString());
+                System.out.println(
+                                "第 " + (i + 1) + "封邮件的内容：\n" + messages[i].getContent().toString());
             }
 
         }

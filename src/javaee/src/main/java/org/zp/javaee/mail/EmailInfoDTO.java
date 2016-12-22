@@ -11,7 +11,7 @@ import javax.mail.Multipart;
  * @author zhanpgeng
  * @date 2016/12/22.
  */
-public class EmailInfo {
+public class EmailInfoDTO {
     private String from; // 邮件的发件人
     private String to; // 邮件的收件人
     private String cc; // 邮件的抄送人
@@ -28,8 +28,6 @@ public class EmailInfo {
     public void setContent(Multipart content) {
         this.content = content;
     }
-
-
 
     public String getFrom() {
         return from;
