@@ -17,9 +17,9 @@
 
   <modules>
     <module>src/javase</module>
+    <module>src/javaee</module>
     <module>src/toolbox</module>
     <module>src/middleware</module>
-    <module>src/javaee</module>
   </modules>
 
   <build>

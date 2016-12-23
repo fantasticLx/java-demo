@@ -2,18 +2,19 @@
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
-package org.zp.javaee.mail;
+package org.zp.javaee.tools.mail;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.io.IOException;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
-import java.io.IOException;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * @author Victor Zhang
@@ -21,7 +22,7 @@ import java.io.IOException;
  * @see MailUtil
  */
 public class EmailUtilTest {
-    private final String MAIL_TO = "xxxxx@163.com";
+    private final String MAIL_TO = "xxxxxxx@163.com"; // 收件人邮箱
     private static MailUtil emailUtil;
 
     @BeforeClass

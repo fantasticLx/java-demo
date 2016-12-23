@@ -2,7 +2,7 @@
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
-package org.zp.javaee.mail;
+package org.zp.javaee.tools.mail;
 
 /**
  * @author Victor Zhang

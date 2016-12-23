@@ -1,26 +1,19 @@
 /**
  * The Apache License 2.0 Copyright (c) 2016 Victor Zhang
  */
-package org.zp.javaee.mail;
+package org.zp.javaee.tools.mail;
 
-import org.apache.commons.lang3.StringUtils;
-
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimePart;
-import javax.mail.internet.MimeUtility;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author Victor Zhang
@@ -49,7 +42,7 @@ public class MailUtil {
         MailConfigDTO configDTO = new MailConfigDTO();
         Properties p = new Properties();
         try {
-            p.load(MailUtil.class.getResourceAsStream("/mail/email.properties"));
+            p.load(MailUtil.class.getResourceAsStream("/mail/mail.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -71,7 +64,7 @@ public class MailUtil {
      */
     public void sendEmail(MailDTO info) throws MessagingException {
         Properties props = new Properties();
-        props.setProperty("mail.debug", "false");
+        props.setProperty("mail.debug", "true");
         props.setProperty("mail.transport.protocol", "smtp");
         props.setProperty("mail.host", configDTO.getSmtpHost());
         props.setProperty("mail.smtp.auth", "true");
@@ -192,19 +185,16 @@ public class MailUtil {
         Message[] messages = folder.getMessages();
 
         List<MailDTO> results = new ArrayList<>();
-//        for (int i = 0; i < messages.length; i++) {
-//            MailDTO dto = new MailDTO();
-//            dto.setFrom(MimeUtility.decodeText(messages[i].getFrom()[0].toString()));
-//            dto.setSubject(messages[i].getSubject());
-//            dto.setText(messages[i].getContent().toString());
-//            results.add(dto);
-//            System.out.println("第 " + (i + 1) + "封邮件的主题：" + dto.getSubject());
-//            System.out.println("第 " + (i + 1) + "封邮件的发件人地址：" + dto.getFrom());
-//            // System.out.println("第 " + (i + 1) + "封邮件的内容：\n" + messages[i].getContent().toString());
-//        }
-
-
-        System.out.println("第 " + (11) + "封邮件的内容：\n" + MimeUtility.decodeText(messages[10].getContent().toString()));
+        for (int i = 0; i < messages.length; i++) {
+            MailDTO dto = new MailDTO();
+            dto.setFrom(MimeUtility.decodeText(messages[i].getFrom()[0].toString()));
+            dto.setSubject(messages[i].getSubject());
+            dto.setText(messages[i].getContent().toString());
+            results.add(dto);
+            System.out.println("第 " + (i + 1) + "封邮件的主题：" + dto.getSubject());
+            System.out.println("第 " + (i + 1) + "封邮件的发件人地址：" + dto.getFrom());
+            // System.out.println("第 " + (i + 1) + "封邮件的内容：\n" + messages[i].getContent().toString());
+        }
 
         // 5、关闭
         folder.close(false);

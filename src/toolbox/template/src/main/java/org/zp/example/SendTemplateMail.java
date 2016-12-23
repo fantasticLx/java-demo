@@ -4,21 +4,26 @@
  */
 package org.zp.example;
 
-import org.apache.velocity.VelocityContext;
-import org.zp.javaee.mail.MailDTO;
-import org.zp.javaee.mail.MailUtil;
-import org.zp.tools.template.velocity.VelocityUtil;
-
-import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
+import org.apache.velocity.VelocityContext;
+import org.zp.javaee.tools.mail.MailDTO;
+import org.zp.javaee.tools.mail.MailUtil;
+import org.zp.tools.template.velocity.VelocityUtil;
+
 /**
  * @author Victor Zhang
  * @date 2016/12/23.
+ * @see org.zp.javaee.tools.mail.MailUtil
+ * 注意：如果想要成功发送邮件，需要修改JavaParty项目 src\javaee\tools\src\main\resources\mail\mail.properties 中的
+ * 参数，请根据实际邮箱来配置。
  */
 public class SendTemplateMail {
+    private static final String DEFAULT_TO = "guitar_zp@163.com";
     public static class Hyperlink {
         private String link;
         private String name;
@@ -44,6 +49,7 @@ public class SendTemplateMail {
             this.name = name;
         }
     }
+
     public static void main(String[] args) throws MessagingException {
         VelocityContext context = new VelocityContext();
         context.put("name", "Victor Zhang");
@@ -62,7 +68,7 @@ public class SendTemplateMail {
         context.put("logo", "http://images.cnblogs.com/cnblogs_com/jingmoxukong/709053/o_%e6%94%bb%e5%9f%8e%e7%8b%ae2.png");
 
         MailDTO info = new MailDTO();
-        info.setTo("xxxx@163.com"); // 收件人邮箱
+        info.setTo(DEFAULT_TO); // 收件人邮箱
         info.setSubject("测试html邮件"); // 邮件主题
         info.setType("html");
         info.setCharset("utf-8");

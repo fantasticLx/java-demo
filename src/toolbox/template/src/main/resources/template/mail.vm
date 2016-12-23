@@ -52,9 +52,9 @@
                 ## 邮件正文
                 <tr bgcolor="#121a25">
                     <td style="padding: 20px; font-size: 12px; line-height: 17px; color: #c6d4df; font-family: Arial, Helvetica, sans-serif;">
-                        <p style="padding-bottom: 10px; color: #c6d4df;">将超链接、超链接名存入对象，将多个这样的对象放入列表：</p>
+                        <p style="color: #c6d4df;">将超链接、超链接名存入对象，将多个这样的对象放入列表：</p>
                         #foreach( $item in $links )
-                            <ul style="color: #c6d4df;" href="$item.link">$item.name</ul>
+                            <a style="color: #c6d4df;" href="$item.link">$item.name</a><br/>
                         #end
                         <p style="color: #ffffff; font-weight: bold;">传图片url，显示logo</p>
                         <img src="$logo" alt="logo" height="100" width="100"/>

@@ -277,7 +277,7 @@ import java.security.SecureRandom;
 /**
  * @Title DESCoder
  * @Description DES安全编码：是经典的对称加密算法。密钥仅56位，且迭代次数偏少。已被视为并不安全的加密算法。
- * @Author zhangpeng0913
+ * @Author Victor Zhang
  * @Date 2016年7月14日
  */
 public class DESCoder implements Encode {
@@ -308,7 +308,7 @@ public class DESCoder implements Encode {
     /**
      * @Title decrypt
      * @Description 解密
-     * @Author zhangpeng0913
+     * @Author Victor Zhang
      * @Date 2016年7月20日
      * @param input 密文
      * @return byte[] 明文
@@ -330,7 +330,7 @@ public class DESCoder implements Encode {
     /**
      * @Title encrypt
      * @Description 加密
-     * @Author zhangpeng0913
+     * @Author Victor Zhang
      * @Date 2016年7月20日
      * @param input 明文
      * @return byte[] 密文
@@ -352,7 +352,7 @@ public class DESCoder implements Encode {
     /**
      * @Title initKey
      * @Description 根据随机数种子生成一个密钥
-     * @Author zhangpeng0913
+     * @Author Victor Zhang
      * @Date 2016年7月14日
      * @Return Key
      * @throws NoSuchAlgorithmException

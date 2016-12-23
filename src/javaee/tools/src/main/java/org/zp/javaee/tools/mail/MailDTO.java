@@ -2,12 +2,12 @@
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
-package org.zp.javaee.mail;
+package org.zp.javaee.tools.mail;
 
-import javax.mail.Multipart;
+import javax.mail.internet.MimeMultipart;
 
 /**
- * @author zhanpgeng
+ * @author Victor Zhang
  * @date 2016/12/22.
  */
 public class MailDTO {
@@ -15,10 +15,11 @@ public class MailDTO {
     private String to; // 邮件的收件人
     private String cc; // 邮件的抄送人
     private String bcc; // 邮件的密送人
-    private String subject;
+    private String subject; // 邮件主题
     private String type; // text或html两种类型
-    private String text;
-    private Multipart content;
+    private String text; // 邮件文本内容
+    private String charset; // 邮件编码类型（如UTF-8、GBK等）
+    private MimeMultipart content;
 
     public String getFrom() {
         return from;
@@ -76,11 +77,19 @@ public class MailDTO {
         this.text = text;
     }
 
-    public Multipart getContent() {
+    public String getCharset() {
+        return charset;
+    }
+
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    public MimeMultipart getContent() {
         return content;
     }
 
-    public void setContent(Multipart content) {
+    public void setContent(MimeMultipart content) {
         this.content = content;
     }
 }
