@@ -19,7 +19,7 @@ jsoup是基于MIT协议发布的，可放心使用于商业项目。
 使用静态`Jsoup.parse(String html)` 方法或 `Jsoup.parse(String html, String baseUri)`示例代码：
 
 ```java
-String html = "<html><head><title>First parse</title></head>"
+String html = "<html><head><subject>First parse</subject></head>"
   + "<body><p>Parsed HTML into a doc.</p></body></html>";
 Document doc = Jsoup.parse(html);
 ```
@@ -346,7 +346,7 @@ doc.select("div.comments a").attr("rel", "nofollow");
 与`Element`中的其它方法一样，`attr` 方法也是返回当 `Element` (或在使用选择器是返回 `Elements`集合)。这样能够很方便使用方法连用的书写方式。比如：
 
 ```
-doc.select("div.masthead").attr("title", "jsoup").addClass("round-box");
+doc.select("div.masthead").attr("subject", "jsoup").addClass("round-box");
 ```
 
 

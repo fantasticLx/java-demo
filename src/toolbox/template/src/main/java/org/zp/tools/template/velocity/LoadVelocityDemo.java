@@ -1,7 +1,8 @@
-package org.zp.template.velocity; /**
+/**
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
+package org.zp.tools.template.velocity;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -18,7 +19,7 @@ import java.util.Properties;
  * @author Victor Zhang
  * @date 2016/12/22.
  */
-public class VelocityDemo {
+public class LoadVelocityDemo {
     public static void main(String[] args) throws IOException {
         loadByClasspath();
         loadByFilepath();
@@ -35,7 +36,7 @@ public class VelocityDemo {
         p.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         VelocityEngine ve = new VelocityEngine();
         ve.init(p);
-        Template t = ve.getTemplate("template/helloVelocity.vm");
+        Template t = ve.getTemplate("template/hello.vm");
 
         System.out.println(fillTemplate(t));
     }
@@ -50,7 +51,7 @@ public class VelocityDemo {
         p.put(VelocityEngine.FILE_RESOURCE_LOADER_PATH, "D:\\01_Workspace\\Project\\zp\\javaparty\\src\\toolbox\\template\\src\\main\\resources");
         VelocityEngine ve = new VelocityEngine();
         ve.init(p);
-        Template t = ve.getTemplate("helloVelocity.vm");
+        Template t = ve.getTemplate("hello.vm");
 
         System.out.println(fillTemplate(t));
     }
@@ -62,10 +63,10 @@ public class VelocityDemo {
         System.out.println("========== loadByConfig ==========");
 
         Properties p = new Properties();
-        p.load(VelocityDemo.class.getResourceAsStream("/template/velocity.properties"));
+        p.load(LoadVelocityDemo.class.getResourceAsStream("/template/velocity.properties"));
         VelocityEngine ve = new VelocityEngine();
         ve.init(p);
-        Template t = ve.getTemplate("template/helloVelocity.vm");
+        Template t = ve.getTemplate("template/hello.vm");
 
         System.out.println(fillTemplate(t));
     }

@@ -1,4 +1,4 @@
-package org.zp.template.velocity; /**
+package org.zp.tools.template.velocity; /**
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
@@ -6,7 +6,6 @@ package org.zp.template.velocity; /**
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -23,7 +22,7 @@ public class VelocityHelloWorld2 {
         /* 1.初始化 Velocity */
         Properties p = new Properties();
         try {
-            p.load(VelocityDemo.class.getResourceAsStream("/template/velocity.properties"));
+            p.load(VelocityUtil.class.getResourceAsStream("/template/velocity.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +37,7 @@ public class VelocityHelloWorld2 {
         context.put("project", "Velocity");
 
         /* 4.选择一个模板 */
-        Template template = velocityEngine.getTemplate("template/helloVelocity.vm");
+        Template template = velocityEngine.getTemplate("template/hello.vm");
 
         /* 5.将你的数据与模板合并，产生输出内容 */
         StringWriter sw = new StringWriter();

@@ -1,4 +1,4 @@
-package org.zp.template.velocity; /**
+package org.zp.tools.template.velocity; /**
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
@@ -31,7 +31,7 @@ public class VelocityHelloWorld {
         context.put("project", "Velocity");
 
         /* 4.选择一个模板 */
-        Template template = velocityEngine.getTemplate("template/helloVelocity.vm");
+        Template template = velocityEngine.getTemplate("template/hello.vm");
 
         /* 5.将你的数据与模板合并，产生输出内容 */
         StringWriter sw = new StringWriter();
