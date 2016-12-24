@@ -16,10 +16,10 @@
   </properties>
 
   <modules>
-    <module>src/javase</module>
-    <module>src/javaee</module>
-    <module>src/toolbox</module>
-    <module>src/middleware</module>
+    <module>javase</module>
+    <module>javaee</module>
+    <module>toolbox</module>
+    <module>middleware</module>
   </modules>
 
   <build>
