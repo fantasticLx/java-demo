@@ -50,7 +50,7 @@ public class XiamiParser {
             for (Element song : songs) {
                 Elements name = song.getElementsByClass("song_name");
                 for (Element link : name) {
-                    XiamiParser.SongInfo songinfo = new XiamiParser.SongInfo();
+                    SongInfo songinfo = new SongInfo();
                     songinfo.setName(link.child(0).text());
                     Elements artistName = link.getElementsByClass("artist_name");
                     songinfo.setArtist(artistName.get(0).text());
