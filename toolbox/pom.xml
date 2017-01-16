@@ -21,5 +21,6 @@
     <module>test</module>
     <module>html</module>
     <module>template</module>
+    <module>image</module>
   </modules>
 </project>
