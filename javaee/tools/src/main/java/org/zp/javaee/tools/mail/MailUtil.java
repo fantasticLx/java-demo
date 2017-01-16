@@ -184,7 +184,7 @@ public class MailUtil {
         // 获得邮件夹Folder内的所有邮件Message对象
         Message[] messages = folder.getMessages();
 
-        List<MailDTO> results = new ArrayList<>();
+        List<MailDTO> results = new ArrayList<MailDTO>();
         for (int i = 0; i < messages.length; i++) {
             MailDTO dto = new MailDTO();
             dto.setFrom(MimeUtility.decodeText(messages[i].getFrom()[0].toString()));
