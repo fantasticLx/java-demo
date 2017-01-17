@@ -7,7 +7,7 @@ package org.zp.image;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.junit.Assert;
 import org.junit.Test;
-import org.zp.image.api.ImageParamDTO;
+import org.zp.image.dto.ImageParamDTO;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

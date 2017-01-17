@@ -5,23 +5,16 @@
 package org.zp.image;
 
 import net.coobird.thumbnailator.Thumbnails;
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicException;
-import net.sf.jmimemagic.MagicMatch;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
-import net.sf.jmimemagic.MagicParseException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zp.image.api.ImageParamDTO;
+import org.zp.image.dto.ImageParamDTO;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -100,12 +93,5 @@ public class ImageUtil {
         }
 
         return builder;
-    }
-
-    public static String getMimeType(byte[] contents)
-            throws IOException, MagicParseException, MagicException, MagicMatchNotFoundException {
-        Magic parser = new Magic();
-        MagicMatch match = parser.getMagicMatch(contents);
-        return match.getMimeType();
     }
 }

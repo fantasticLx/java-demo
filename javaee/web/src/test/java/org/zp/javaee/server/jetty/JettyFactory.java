@@ -95,7 +95,7 @@ public class JettyFactory {
         // tlds, web-fragments etc.
         // If you omit the jar that contains the jstl .tlds, the jsp engine will scan for them
         // instead.
-        ArrayList jarNameExprssions = Lists.newArrayList(".*/[^/]*servlet-api-[^/]*\\.jar$",
+        ArrayList jarNameExprssions = Lists.newArrayList(".*/[^/]*servlet-dto-[^/]*\\.jar$",
                         ".*/javax.servlet.jsp.jstl-.*\\.jar$", ".*/[^/]*taglibs.*\\.jar$");
 
         for (String jarName : jarNames) {

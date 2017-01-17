@@ -2,7 +2,7 @@
  * The Apache License 2.0
  * Copyright (c) 2016 Victor Zhang
  */
-package org.zp.image.api;
+package org.zp.image.dto;
 
 import net.coobird.thumbnailator.geometry.Positions;
 
