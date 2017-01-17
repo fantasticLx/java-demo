@@ -6,6 +6,8 @@
 
 # 实战
 
+***本例演示如何在一个非 android 的 Java 项目中使用 ZXing 来生成、解析二维码图片。***
+
 ## 安装
 
 maven项目只需引入依赖：
@@ -23,7 +25,51 @@ maven项目只需引入依赖：
 </dependency>
 ```
 
+如果非maven项目，就去官网下载发布版本：[<u>下载地址</u>](https://github.com/zxing/zxing/releases)
 
+## 生成二维码图片
+
+ZXing 生成二维码图片有以下步骤：
+
+1. `com.google.zxing.MultiFormatWriter` 根据内容以及图像编码参数生成图像2D矩阵。
+2. ​ `com.google.zxing.client.j2se.MatrixToImageWriter` 根据图像矩阵生成图片文件或图片缓存 `BufferedImage` 。
+
+```java
+public void encode(String content, String filepath) throws WriterException, IOException {
+	int width = 100;
+	int height = 100;
+	Map<EncodeHintType, Object> encodeHints = new HashMap<EncodeHintType, Object>();
+	encodeHints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+	BitMatrix bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height, encodeHints);
+	Path path = FileSystems.getDefault().getPath(filepath);
+	MatrixToImageWriter.writeToPath(bitMatrix, "png", path);
+}
+```
+
+## 解析二维码图片
+
+ZXing 解析二维码图片有以下步骤：
+
+使用 `javax.imageio.ImageIO` 读取图片文件，并存为一个 `java.awt.image.BufferedImage` 对象。
+
+将 `java.awt.image.BufferedImage` 转换为 ZXing 能识别的 `com.google.zxing.BinaryBitmap` 对象。
+
+`com.google.zxing.MultiFormatReader` 根据图像解码参数来解析 `com.google.zxing.BinaryBitmap` 。
+
+```java
+public String decode(String filepath) throws IOException, NotFoundException {
+	BufferedImage bufferedImage = ImageIO.read(new FileInputStream(filepath));
+	LuminanceSource source = new BufferedImageLuminanceSource(bufferedImage);
+	Binarizer binarizer = new HybridBinarizer(source);
+	BinaryBitmap bitmap = new BinaryBitmap(binarizer);
+	HashMap<DecodeHintType, Object> decodeHints = new HashMap<DecodeHintType, Object>();
+	decodeHints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
+	Result result = new MultiFormatReader().decode(bitmap, decodeHints);
+	return result.getText();
+}
+```
+
+完整参考示例：[<u>测试例代码</u>](https://github.com/atlantis1024/JavaParty/blob/master/toolbox/image/src/test/java/org/zp/image/QRCodeUtilTest.java)
 
 # 参考
 
