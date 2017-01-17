@@ -13,6 +13,8 @@
 
   <artifactId>toolbox</artifactId>
   <packaging>pom</packaging>
+  <name>toolbox</name>
+  <description>本项目下的各个子项目，分别展示Java开源软件在不同领域的应用</description>
 
   <modules>
     <module>logging</module>
