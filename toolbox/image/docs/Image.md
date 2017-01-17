@@ -215,6 +215,8 @@ Thumbnails.of("oldFile.png", "oldFile2.png")
 		.toFiles(destinationDir, Rename.PREFIX_DOT_THUMBNAIL);
 ```
 
+> **需要参考完整测试例代码请** [<u>**点击这里**</u>](https://github.com/atlantis1024/JavaParty/blob/master/toolbox/image/src/test/java/org/zp/image/ThumbnailatorTest.java)
+
 # 参考
 
 [Thumbnailator 官方示例文档](https://github.com/coobird/thumbnailator/wiki/Examples)
