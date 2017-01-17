@@ -42,12 +42,11 @@ public class QRCodeUtilTest {
 
     private String initTestJson() throws JsonProcessingException {
         Map<String, Object> userData = new HashMap<String, Object>();
-        Map<String, String> nameStruct = new HashMap<String, String>();
-        nameStruct.put("first", "Peng");
-        nameStruct.put("last", "Zhang");
-        userData.put("name", nameStruct);
+        Map<String, String> fullname = new HashMap<String, String>();
+        fullname.put("first", "Peng");
+        fullname.put("last", "Zhang");
+        userData.put("name", fullname);
         userData.put("gender", "MALE");
-        userData.put("verified", Boolean.FALSE);
         userData.put("email", "aaa@163.com");
 
         ObjectMapper mapper = new ObjectMapper(); // can reuse, share globally
@@ -90,7 +89,7 @@ public class QRCodeUtilTest {
      */
     @Test
     public void test02() {
-        String expect = "{\"gender\":\"MALE\",\"name\":{\"last\":\"Zhang\",\"first\":\"Peng\"},\"verified\":false,\"email\":\"aaa@163.com\"}";
+        String expect = "{\"gender\":\"MALE\",\"name\":{\"last\":\"Zhang\",\"first\":\"Peng\"},\"email\":\"aaa@163.com\"}";
         String content = QRCodeUtil.decode(paramDTO);
         Assert.assertEquals(expect, content);
     }

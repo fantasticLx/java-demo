@@ -50,11 +50,12 @@ public void encode(String content, String filepath) throws WriterException, IOEx
 
 ZXing 解析二维码图片有以下步骤：
 
-使用 `javax.imageio.ImageIO` 读取图片文件，并存为一个 `java.awt.image.BufferedImage` 对象。
+1. 使用 `javax.imageio.ImageIO` 读取图片文件，并存为一个 `java.awt.image.BufferedImage` 对象。
 
-将 `java.awt.image.BufferedImage` 转换为 ZXing 能识别的 `com.google.zxing.BinaryBitmap` 对象。
+2. 将 `java.awt.image.BufferedImage` 转换为 ZXing 能识别的 `com.google.zxing.BinaryBitmap` 对象。
 
-`com.google.zxing.MultiFormatReader` 根据图像解码参数来解析 `com.google.zxing.BinaryBitmap` 。
+3. `com.google.zxing.MultiFormatReader` 根据图像解码参数来解析 `com.google.zxing.BinaryBitmap` 。
+
 
 ```java
 public String decode(String filepath) throws IOException, NotFoundException {
@@ -70,6 +71,10 @@ public String decode(String filepath) throws IOException, NotFoundException {
 ```
 
 完整参考示例：[<u>测试例代码</u>](https://github.com/atlantis1024/JavaParty/blob/master/toolbox/image/src/test/java/org/zp/image/QRCodeUtilTest.java)
+
+以下是一个生成的二维码图片示例：
+
+![qrcode.png](http://upload-images.jianshu.io/upload_images/3101171-26b73730088f0ab8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # 参考
 
