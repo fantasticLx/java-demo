@@ -11,7 +11,9 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -96,6 +98,23 @@ public class ThumbnailatorTest {
         Thumbnails.fromFiles(files)
                 .size(50, 50)
                 .toFiles(new File("D:\\fromFiles"), Rename.PREFIX_HYPHEN_THUMBNAIL);
+    }
+
+    @Test
+    public void testOutput() throws IOException {
+        final String oldFile = System.getProperty("user.dir") + "/src/main/resources/images/lion2.jpg";
+        File file = new File(oldFile);
+        BufferedImage bufferedImage = ImageIO.read(file);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        // 输入形式：文件名
+        Thumbnails.of(bufferedImage)
+                .scale(1.0)
+                .outputFormat("png")
+                .toOutputStream(outputStream);
+        byte[] bytes = outputStream.toByteArray();
+        FileImageOutputStream imageOutput = new FileImageOutputStream(new File("d:\\lion_output.png"));
+        imageOutput.write(bytes, 0, bytes.length);
+        imageOutput.close();
     }
 
     @Test

@@ -5,12 +5,18 @@
 package org.zp.image;
 
 import net.coobird.thumbnailator.geometry.Positions;
+import net.sf.jmimemagic.MagicException;
+import net.sf.jmimemagic.MagicMatchNotFoundException;
+import net.sf.jmimemagic.MagicParseException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.zp.image.dto.ImageParamDTO;
+import org.zp.javaee.tools.file.FileUtil;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+
 
 /**
  * @author Victor Zhang
@@ -42,5 +48,13 @@ public class ImageUtilTest {
 
         BufferedImage bufferedImage = ImageUtil.toBufferedImage(oldFile, params);
         Assert.assertNotNull(bufferedImage);
+    }
+
+    @Test
+    public void testGetContentType() throws MagicParseException, MagicException, MagicMatchNotFoundException, IOException {
+        final String oldFile = System.getProperty("user.dir") + "/src/main/resources/images/lion2.jpg";
+        byte[] bytes = FileUtil.toBytes(new File(oldFile));
+        String type = ImageUtil.getContentType(bytes);
+        Assert.assertEquals("image/jpeg", type);
     }
 }

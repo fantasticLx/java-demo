@@ -34,6 +34,12 @@
       <artifactId>thumbnailator</artifactId>
       <version>[0.4, 0.5)</version>
     </dependency>
+
+    <dependency>
+      <groupId>net.sf.jmimemagic</groupId>
+      <artifactId>jmimemagic</artifactId>
+      <version>0.1.4</version>
+    </dependency>
     <!-- image end -->
 
     <!-- json begin -->

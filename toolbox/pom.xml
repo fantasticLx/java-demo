@@ -25,4 +25,12 @@
     <module>template</module>
     <module>image</module>
   </modules>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.zp</groupId>
+      <artifactId>javaee-tools</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
