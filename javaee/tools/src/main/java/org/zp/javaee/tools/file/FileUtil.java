@@ -4,8 +4,13 @@
  */
 package org.zp.javaee.tools.file;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
@@ -74,5 +79,32 @@ public class FileUtil {
 
     public static String getClassPath() {
         return Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    }
+
+    /**
+     * 获取文件内容的字节数组
+     */
+    public static byte[] toBytes(File file) throws IOException {
+        InputStream input = new FileInputStream(file);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length = 0;
+        while ((length = input.read(buffer)) != -1) {
+            output.write(buffer, 0, length);
+        }
+        byte[] data = output.toByteArray();
+        output.close();
+        input.close();
+        return data;
+    }
+
+    /**
+     * 将字节数组转为文件
+     */
+    public static void toFile(byte[] data, File file) throws IOException {
+        if (data.length < 3) return;
+        OutputStream output = new FileOutputStream(file);
+        output.write(data, 0, data.length);
+        output.close();
     }
 }
