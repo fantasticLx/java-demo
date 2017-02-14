@@ -4,7 +4,6 @@
  */
 package org.zp.image;
 
-import net.coobird.thumbnailator.geometry.Positions;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
@@ -26,15 +25,12 @@ public class ImageUtilTest {
     @Test
     public void testToFile() throws IOException {
         final String oldFile = System.getProperty("user.dir") + "/src/main/resources/images/lion2.jpg";
-        final String newFile = System.getProperty("user.dir") + "/src/main/resources/images/lion2_watermark.png";
+        final String newFile = System.getProperty("user.dir") + "/src/main/resources/images/lion2_watermark";
         final String warterFile = System.getProperty("user.dir") + "/src/main/resources/images/wartermark.png";
 
         ImageParamDTO params = new ImageParamDTO();
-        params.setScale(0.5f);
-        params.setWartermarkPath(warterFile);
-        params.setWartermarkPosition(Positions.BOTTOM_LEFT);
-        params.setWartermarkOpacity(0.8f);
-
+        params.setFormat("png");
+        params.setWaterMark(new ImageParamDTO.WaterMark(10, warterFile, 0.6f));
         ImageUtil.toFile(oldFile, newFile, params);
     }
 

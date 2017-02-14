@@ -5,6 +5,7 @@
 package org.zp.image;
 
 import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
 import net.sf.jmimemagic.MagicMatch;
@@ -17,10 +18,11 @@ import org.zp.image.dto.ImageParamDTO;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +41,8 @@ public class ImageUtil {
             logger.error("原文件名或目标文件名为空");
             return;
         }
-        Thumbnails.Builder builder = getBuilder(oldFile, params);
+        Thumbnails.Builder builder = Thumbnails.of(oldFile);
+        fillBuilderWithParams(builder, params);
         if (null == builder) {
             return;
         }
@@ -51,56 +54,72 @@ public class ImageUtil {
             logger.error("原文件名或目标文件名为空");
             return null;
         }
-        Thumbnails.Builder builder = getBuilder(oldFile, params);
+        Thumbnails.Builder builder = Thumbnails.of(oldFile);
+        fillBuilderWithParams(builder, params);
         if (null == builder) {
             return null;
         }
         return builder.asBufferedImage();
     }
 
-    public static OutputStream toOutputStream(String oldFile, String newFile, ImageParamDTO params) throws IOException {
-        if (StringUtils.isBlank(oldFile)) {
-            logger.error("原文件名或目标文件名为空");
-            return null;
-        }
-        Thumbnails.Builder builder = getBuilder(oldFile, params);
+    public static OutputStream toOutputStream(InputStream input, OutputStream output, ImageParamDTO params) throws IOException {
+        Thumbnails.Builder builder = Thumbnails.of(input);
         if (null == builder) {
             return null;
         }
 
-        OutputStream os = new FileOutputStream(newFile);
-        builder.toOutputStream(os);
-        return os;
+        try {
+            fillBuilderWithParams(builder, params);
+            builder.toOutputStream(output);
+        } catch (IOException e) {
+            logger.error("图片处理失败\n" + e.getMessage());
+            throw e;
+        }
+
+        return output;
     }
 
-    private static Thumbnails.Builder getBuilder(String oldFile, ImageParamDTO params) throws IOException {
+    private static void fillBuilderWithParams(Thumbnails.Builder builder, ImageParamDTO params) throws IOException {
         if (null == params) {
-            logger.error("目标图片参数为空");
-            return null;
+            throw new IOException("图片格式化参数为空");
         }
 
-        Thumbnails.Builder builder = Thumbnails.of(new File(oldFile));
-        if (null != params.getScale()) {
-            builder.scale(params.getScale());
-        } else if (null != params.getWidth() && null != params.getHeight()) {
+        // 按照一定规则改变原图尺寸
+        if (null != params.getWidth() && null != params.getHeight()) {
             builder.size(params.getWidth(), params.getHeight());
+        } else if (null != params.getXscale() && null != params.getYscale()) {
+            builder.scale(params.getXscale(), params.getYscale());
+        } else if (null != params.getScale()) {
+            builder.scale(params.getScale(), params.getScale());
         } else {
-            logger.error("目标图片参数错误");
+            builder.scale(1.0); // 如果没有设置尺寸参数，默认大小为原图大小
         }
 
+        // 设置图片旋转角度
         if (null != params.getRotate()) {
             builder.rotate(params.getRotate());
         }
 
+        // 设置图片压缩质量
         if (null != params.getQuality()) {
             builder.outputQuality(params.getQuality());
         }
 
-        if (StringUtils.isNotBlank(params.getWartermarkPath())) {
-            builder.watermark(params.getWartermarkPosition(), ImageIO.read(new File(params.getWartermarkPath())), params.getWartermarkOpacity());
+        // 设置图片格式
+        if (StringUtils.isNotBlank(params.getFormat())) {
+            builder.outputFormat(params.getFormat());
         }
 
-        return builder;
+        // 设置水印
+        ImageParamDTO.WaterMark waterMark = params.getWaterMark();
+        if (null != waterMark) {
+            Positions pos = ImageParamDTO.getPostionsByCode(waterMark.getPosition());
+            if (null == pos) {
+                throw new IOException("请检查水印图片的位置类型，有效范围在[1,9]");
+            }
+            BufferedImage bufferedImage = ImageIO.read(new FileInputStream(waterMark.getImage()));
+            builder.watermark(pos, bufferedImage, waterMark.getOpacity());
+        }
     }
 
     /**
@@ -115,5 +134,21 @@ public class ImageUtil {
     public static String getContentType(byte[] content) throws MagicParseException, MagicException, MagicMatchNotFoundException {
         MagicMatch match = Magic.getMagicMatch(content);
         return match.getMimeType();
+    }
+
+    public static final InputStream bytes2InputStream(byte[] buf) {
+        return new ByteArrayInputStream(buf);
+    }
+
+    public static final byte[] inputStream2bytes(InputStream inStream)
+            throws IOException {
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();
+        byte[] buff = new byte[100];
+        int rc = 0;
+        while ((rc = inStream.read(buff, 0, 100)) > 0) {
+            swapStream.write(buff, 0, rc);
+        }
+        byte[] in2b = swapStream.toByteArray();
+        return in2b;
     }
 }
