@@ -24,6 +24,7 @@
     <module>html</module>
     <module>template</module>
     <module>image</module>
+    <module>mail</module>
   </modules>
 
   <dependencies>
