@@ -47,7 +47,7 @@ JavaMail 包中用于处理电子邮件的核心类是： `Properties` 、 `Sess
 
 `MimeMultipart` 类：代表一个由多个 MIME 信息组合成的组合 MIME 信息。
 
-![使用JavaMail收发邮件0](http://www.itnose.net/img/20160228/10624985.png)
+![使用JavaMail收发邮件0](http://upload-images.jianshu.io/upload_images/3101171-948230d2f5c7a620.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # JavaMail 的核心类
 
@@ -100,11 +100,12 @@ Session 的主要作用包括两个方面：
 
 JavaMail 在 Jar 包的 META-INF 目录下，通过以下文件提供了基本配置信息，以便 session 能够根据这个配置文件加载提供者的实现类：
 
-javamail.default.providers ；
+- javamail.default.providers
 
-javamail.default.address.map 。
+- javamail.default.address.map
 
-![使用JavaMail收发邮件1](http://www.itnose.net/img/20160228/10624986.png)
+
+![Paste_Image.png](http://upload-images.jianshu.io/upload_images/3101171-b59382c69385df45.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 **例：**
 
@@ -162,13 +163,13 @@ setRecipient ：设置邮件的发送人、抄送人、密送人
 
 `Message.RecipientType.CC` ：抄送人
 
-`Message.RecipientType.BCC` ：密送人****
+`Message.RecipientType.BCC` ：密送人
 
-setSubject ：设置邮件的主题
+`setSubject` ：设置邮件的主题
 
-setContent ：设置邮件内容
+`setContent` ：设置邮件内容
 
-setText ：如果邮件内容是纯文本，可以使用此接口设置文本内容。
+`setText` ：如果邮件内容是纯文本，可以使用此接口设置文本内容。
 
 ## javax.mail.Address类（地址）
 
@@ -347,240 +348,120 @@ public static void main(String[] args) throws Exception {
 
 ## 获取邮箱中的邮件  
 
-```
- public class StoreMail {
+```java
+ public static void main(String[] args) throws Exception {
 
-    final static String USER = "root"; // 用户名
+    // 创建一个有具体连接信息的Properties对象
+    Properties prop = new Properties();
+    prop.setProperty("mail.debug", "true");
+    prop.setProperty("mail.store.protocol", "pop3");
+    prop.setProperty("mail.pop3.host", MAIL_SERVER_HOST);
 
- 
+    // 1、创建session
+    Session session = Session.getInstance(prop);
 
-    final static String PASSWORD = "root"; // 密码
+    // 2、通过session得到Store对象
+    Store store = session.getStore();
 
- 
+    // 3、连上邮件服务器
+    store.connect(MAIL_SERVER_HOST, USER, PASSWORD);
 
-    public final static String MAIL_SERVER_HOST = "mail.163.com"; // 邮箱服务器
+    // 4、获得邮箱内的邮件夹
+    Folder folder = store.getFolder("inbox");
+    folder.open(Folder.READ_ONLY);
 
- 
+    // 获得邮件夹Folder内的所有邮件Message对象
+    Message[] messages = folder.getMessages();
+    for (int i = 0; i < messages.length; i++) {
+        String subject = messages[i].getSubject();
+        String from = (messages[i].getFrom()[0]).toString();
+        System.out.println("第 " + (i + 1) + "封邮件的主题：" + subject);
+        System.out.println("第 " + (i + 1) + "封邮件的发件人地址：" + from);
+    }
 
-    public final static String TYPE_HTML = "text/html;charset=UTF-8"; // 文本内容类型
-
- 
-
-    public final static String MAIL_FROM = "[email protected]"; // 发件人
-
- 
-
-    public final static String MAIL_TO = "[email protected]"; // 收件人
-
- 
-
-    public final static String MAIL_CC = "[email protected]"; // 抄送人
-
- 
-
-    public final static String MAIL_BCC = "[email protected]"; // 密送人
-
- 
-
-    public static void main(String[] args) throws Exception {
-
-        // 创建一个有具体连接信息的Properties对象
-
-        Properties prop = new Properties();
-
-        prop.setProperty("mail.debug", "true");
-
-        prop.setProperty("mail.store.protocol", "pop3");
-
-        prop.setProperty("mail.pop3.host", MAIL_SERVER_HOST);
-
- 
-
-        // 1、创建session
-
-        Session session = Session.getInstance(prop);
-
- 
-
-        // 2、通过session得到Store对象
-
-        Store store = session.getStore();
-
- 
-
-        // 3、连上邮件服务器
-
-        store.connect(MAIL_SERVER_HOST, USER, PASSWORD);
-
- 
-
-        // 4、获得邮箱内的邮件夹
-
-        Folder folder = store.getFolder("inbox");
-
-        folder.open(Folder.READ_ONLY);
-
- 
-
-        // 获得邮件夹Folder内的所有邮件Message对象
-
-        Message[] messages = folder.getMessages();
-
-        for (int i = 0; i < messages.length; i++) {
-
- 
-
-            String subject = messages[i].getSubject();
-
-            String from = (messages[i].getFrom()[0]).toString();
-
- 
-
-            System.out.println("第 " + (i + 1) + "封邮件的主题：" + subject);
-
-            System.out.println("第 " + (i + 1) + "封邮件的发件人地址：" + from);
-
-        }
-
- 
-
-        // 5、关闭
-
-        folder.close(false);
-
-        store.close();
-
-    }
-
+    // 5、关闭
+    folder.close(false);
+    store.close();
 }
-
-View Code
 ```
 
 ## 转发邮件
 
 例：获取指定邮件夹下的第一封邮件并转发
 
-```
- public static void main(String[] args) throws Exception {
-    Properties prop = new Properties();
-    prop.put("mail.store.protocol", "pop3");
-    prop.put("mail.pop3.host", MAIL_SERVER_HOST);
-    prop.put("mail.pop3.starttls.enable", "true");
-    prop.put("mail.smtp.auth", "true");
-    prop.put("mail.smtp.host", MAIL_SERVER_HOST);
+```java
+ public static void main(String[] args) throws Exception {
+    Properties prop = new Properties();
+    prop.put("mail.store.protocol", "pop3");
+    prop.put("mail.pop3.host", MAIL_SERVER_POP3);
+    prop.put("mail.pop3.starttls.enable", "true");
+    prop.put("mail.smtp.auth", "true");
+    prop.put("mail.smtp.host", MAIL_SERVER_SMTP);
 
-    // 1、创建session
-    Session session = Session.getDefaultInstance(prop);
+    // 1、创建session
+    Session session = Session.getDefaultInstance(prop);
 
-    // 2、读取邮件夹
-    Store store = session.getStore("pop3");
-    store.connect(MAIL_SERVER_HOST, USER, PASSWORD);
-    Folder folder = store.getFolder("inbox");
-    folder.open(Folder.READ_ONLY);
+    // 2、读取邮件夹
+    Store store = session.getStore("pop3");
+    store.connect(MAIL_SERVER_POP3, USER, PASSWORD);
+    Folder folder = store.getFolder("inbox");
+    folder.open(Folder.READ_ONLY);
 
-    // 获取邮件夹中第1封邮件信息
-    Message[] messages = folder.getMessages();
+    // 获取邮件夹中第1封邮件信息
+    Message[] messages = folder.getMessages();
+    if (messages.length <= 0) {
+        return;
+    }
+    Message message = messages[0];
 
-    if (messages.length <= 0) {
+    // 打印邮件关键信息
+    String from = InternetAddress.toString(message.getFrom());
+    if (from != null) {
+        System.out.println("From: " + from);
+    }
 
-        return;
+    String replyTo = InternetAddress.toString(message.getReplyTo());
+    if (replyTo != null) {
+        System.out.println("Reply-to: " + replyTo);
+    }
 
-    }
+    String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
+    if (to != null) {
+        System.out.println("To: " + to);
+    }
 
-    Message message = messages[0];
+    String subject = message.getSubject();
+    if (subject != null) {
+        System.out.println("Subject: " + subject);
+    }
 
- 
+    Date sent = message.getSentDate();
+    if (sent != null) {
+        System.out.println("Sent: " + sent);
+    }
 
-    // 打印邮件关键信息
+    // 设置转发邮件信息头
+    Message forward = new MimeMessage(session);
+    forward.setFrom(new InternetAddress(MAIL_FROM));
+    forward.setRecipient(Message.RecipientType.TO, new InternetAddress(MAIL_TO));
+    forward.setSubject("Fwd: " + message.getSubject());
 
-    String from = InternetAddress.toString(message.getFrom());
+    // 设置转发邮件内容
+    MimeBodyPart bodyPart = new MimeBodyPart();
+    bodyPart.setContent(message, "message/rfc822");
 
-    if (from != null) {
+    Multipart multipart = new MimeMultipart();
+    multipart.addBodyPart(bodyPart);
+    forward.setContent(multipart);
+    forward.saveChanges();
 
-        System.out.println("From: " + from);
+    Transport ts = session.getTransport("smtp");
+    ts.connect(USER, PASSWORD);
+    ts.sendMessage(forward, forward.getAllRecipients());
 
-    }
-
-    String replyTo = InternetAddress.toString(message.getReplyTo());
-
-    if (replyTo != null) {
-
-        System.out.println("Reply-to: " + replyTo);
-
-    }
-
-    String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));
-
-    if (to != null) {
-
-        System.out.println("To: " + to);
-
-    }
-
-    String subject = message.getSubject();
-
-    if (subject != null) {
-
-        System.out.println("Subject: " + subject);
-
-    }
-
-    Date sent = message.getSentDate();
-
-    if (sent != null) {
-
-        System.out.println("Sent: " + sent);
-
-    }
-
- 
-
-    // 设置转发邮件信息头
-
-    Message forward = new MimeMessage(session);
-
-    forward.setFrom(new InternetAddress(MAIL_FROM));
-
-    forward.setRecipient(Message.RecipientType.TO, new InternetAddress(MAIL_TO));
-
-    forward.setSubject("Fwd: " + message.getSubject());
-
- 
-
-    // 设置转发邮件内容
-
-    MimeBodyPart bodyPart = new MimeBodyPart();
-
-    bodyPart.setContent(message, "message/rfc822");
-
- 
-
-    Multipart multipart = new MimeMultipart();
-
-    multipart.addBodyPart(bodyPart);
-
-    forward.setContent(multipart);
-
-    forward.saveChanges();
-
- 
-
-    Transport ts = session.getTransport("smtp");
-
-    ts.connect(USER, PASSWORD);
-
-    ts.sendMessage(forward, forward.getAllRecipients());
-
- 
-
-    folder.close(false);
-
-    store.close();
-
-    ts.close();
-
-    System.out.println("message forwarded successfully....");
-
+    folder.close(false);
+    store.close();
+    ts.close();
+    System.out.println("message forwarded successfully....");
 }
 ```
