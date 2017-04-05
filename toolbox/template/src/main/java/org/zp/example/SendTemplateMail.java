@@ -23,7 +23,7 @@ import org.zp.tools.template.velocity.VelocityUtil;
  * 参数，请根据实际邮箱来配置。
  */
 public class SendTemplateMail {
-    private static final String DEFAULT_TO = "guitar_zp@163.com";
+    private static final String DEFAULT_TO = "xxxxxx@163.com";
     public static class Hyperlink {
         private String link;
         private String name;

@@ -18,12 +18,12 @@ import java.util.Properties;
 public class ForwardMail {
     private static final String MAIL_SERVER_SMTP = "smtp.163.com";
     private static final String MAIL_SERVER_POP3 = "pop3.163.com";
-    private static final String USER = "guitar_zp";
-    private static final String PASSWORD = "340503@qwe";
-    private static final String MAIL_FROM = "guitar_zp@163.com";
-    private static final String MAIL_TO = "guitar_zp@163.com";
-    private static final String MAIL_CC = "guitar_zp@163.com";
-    private static final String MAIL_BCC = "guitar_zp@163.com";
+    private static final String USER = "xxxxxx";
+    private static final String PASSWORD = "******";
+    private static final String MAIL_FROM = "xxxxxx@163.com";
+    private static final String MAIL_TO = "xxxxxx@163.com";
+    private static final String MAIL_CC = "xxxxxx@163.com";
+    private static final String MAIL_BCC = "xxxxxx@163.com";
 
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
